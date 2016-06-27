@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("count", type=int, help="wanted IDs count")
 args = parser.parse_args()
 if args.count < 0:
-    print "the count can't be negative"
+    print("the count can't be negative")
     sys.exit()
 
 context = zmq.Context()
@@ -16,7 +16,7 @@ socket.connect("tcp://localhost:5555")
 
 ids_req = ids_pb2.IdsRequest()
 ids_req.count = args.count
-print "Requesting %d ids.." % ids_req.count
+print("Requesting %d ids.." % ids_req.count)
 socket.send(ids_req.SerializeToString())
 
 msg = socket.recv()
