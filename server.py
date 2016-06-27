@@ -4,16 +4,16 @@ import zmq
 RESTART = 'max_id.txt'
 
 
-def serve(port=5555):
+def serve(port=5555, restart_file=RESTART):
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.bind('tcp://*:%s' % port)
 
-    if not os.path.exists(RESTART):
-        with open(RESTART, 'w') as fout:
+    if not os.path.exists(restart_file):
+        with open(restart_file, 'w') as fout:
             fout.write('0')
 
-    with open(RESTART) as fin:
+    with open(restart_file) as fin:
         curr_id = int(fin.read())
 
     while True:
@@ -21,7 +21,7 @@ def serve(port=5555):
         ids_rep = {'begin': curr_id}
         curr_id += ids_req['count']
         ids_rep['end'] = curr_id
-        with open(RESTART, 'w') as fout:
+        with open(restart_file, 'w') as fout:
             fout.write(str(curr_id))
         socket.send_json(ids_rep)
 
