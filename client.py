@@ -10,8 +10,8 @@ def request(count):
     socket = context.socket(zmq.REQ)
     socket.connect("tcp://localhost:5555")
 
-    ids_req = {'count': args.count}
-    print("Requesting %d ids.." % ids_req.count)
+    ids_req = {'count': count}
+    print("Requesting %d ids.." % ids_req['count'])
     socket.send_json(ids_req)
 
     ids_rep = socket.recv_json()
