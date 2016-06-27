@@ -1,0 +1,13 @@
+message IdsRequest {
+    required uint32 count = 1;
+}
+
+message IdsReply {
+    required uint64 begin = 1;
+    required uint64 end = 2;
+}
+
+// For performance reasons, the server returns a range [begin, end) which contains globally unique IDs.
+// 'begin' inclusive, 'end' exclusive like C++ intervals or Python range etc.
+// A smaller range (even empty) may be returned in case there are not enough free IDs to serve.
+// Max count per request is limited to 10,000
